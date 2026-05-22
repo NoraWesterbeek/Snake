@@ -116,13 +116,13 @@ public class controller : MonoBehaviour
             {
                 direction = Vector3.right;
                 rotation = -90f;
-                Debug.Log("up to right");
+            
             }
             else if (direction == Vector3.right)
             {
                 direction = Vector3.down;
                 rotation = 180f;
-                Debug.Log("right to up");
+               
             }
             else if (direction == Vector3.down)
             {
@@ -161,7 +161,7 @@ public class controller : MonoBehaviour
             input_on_cooldown = true;
         }
 
-            if (time > .75)
+            if (time > .5)
         {
             update = true;
         }
