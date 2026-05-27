@@ -7,6 +7,7 @@ public class Eye_L : MonoBehaviour
     public Transform EyeL;
     Vector3 rotation;
     public bool L_sees_apple;
+    public bool L_sees_obstacle;
 
     public SpriteRenderer sprite;
 
@@ -24,12 +25,21 @@ public class Eye_L : MonoBehaviour
     {
         EyeL.position = snakeHead.position + snakeHead.rotation * offset;
         EyeL.rotation = snakeHead.rotation;
-        if (L_sees_apple)
+        if (L_sees_apple && !L_sees_obstacle)
         {
             Debug.Log("L_apple!");
             sprite.color = Color.green;
         }
-        else 
+        
+        else if (L_sees_apple && L_sees_obstacle) 
+        {
+            sprite.color = Color.purple;
+        }
+        else if (L_sees_obstacle)
+        {
+            sprite.color = Color.red;
+        }
+        else
         {
             sprite.color = startColor;
         }
@@ -40,8 +50,11 @@ public class Eye_L : MonoBehaviour
     {
         if (other.CompareTag("Apple"))
         {
-            
             L_sees_apple = true;
+        }
+        if (other.CompareTag("Obstacle"))
+        {
+            L_sees_obstacle = true;
         }
     }
     void OnTriggerExit2D(Collider2D other)
@@ -49,6 +62,10 @@ public class Eye_L : MonoBehaviour
         if (other.CompareTag("Apple"))
         {
             L_sees_apple = false;
+        }
+        if (other.CompareTag("Obstacle"))
+        {
+            L_sees_obstacle = false;
         }
     }
 

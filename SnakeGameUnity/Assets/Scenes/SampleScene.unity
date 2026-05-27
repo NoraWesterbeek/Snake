@@ -353,6 +353,7 @@ MonoBehaviour:
   snakeHead: {fileID: 976874915}
   EyeL: {fileID: 564811378}
   L_sees_apple: 0
+  L_sees_obstacle: 0
   sprite: {fileID: 564811382}
 --- !u!61 &564811380
 BoxCollider2D:
@@ -643,6 +644,7 @@ MonoBehaviour:
   EyeR: {fileID: 1019107320}
   sprite: {fileID: 1019107324}
   R_sees_apple: 0
+  R_sees_obstacle: 0
 --- !u!61 &1019107322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -853,6 +855,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 1398147473427254642, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 3285576853152916178, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -899,7 +905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8883526663089665959, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_EdgeRadius
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8883526663089665959, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_UsedByEffector
