@@ -3,6 +3,7 @@ using UnityEngine;
 public class SnakeHead : MonoBehaviour
 {
     private AppleSpawner appleSpawner;
+    public float score = 0;
 
     void Start()
     {
@@ -15,6 +16,8 @@ public class SnakeHead : MonoBehaviour
         {
             Destroy(other.gameObject);
             appleSpawner.SpawnApple();
+            //doubled for some reason
+            score = score + 0.5f;
         }
     }
 }
