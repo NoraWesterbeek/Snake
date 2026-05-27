@@ -6,6 +6,7 @@ public class Eye_R : MonoBehaviour
     public Transform snakeHead;
     public Transform EyeR;
     public SpriteRenderer sprite;
+    public bool R_sees_apple;
 
     Vector3 offset;
 
@@ -21,21 +22,29 @@ public class Eye_R : MonoBehaviour
     {
         EyeR.position = snakeHead.position + snakeHead.rotation * offset;
         EyeR.rotation = snakeHead.rotation;
+        if (R_sees_apple)
+        {
+            Debug.Log("R_apple!");
+            sprite.color = Color.green;
+        }
+        else
+        {
+            sprite.color = startColor;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Apple"))
         {
-            Debug.Log("Apple_R!");
-            sprite.color = Color.green;
+            R_sees_apple = true;
         }
     }
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Apple"))
         {
-            sprite.color = startColor;
+            R_sees_apple = false;
         }
     }
 }

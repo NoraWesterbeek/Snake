@@ -352,6 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   snakeHead: {fileID: 976874915}
   EyeL: {fileID: 564811378}
+  L_sees_apple: 0
   sprite: {fileID: 564811382}
 --- !u!61 &564811380
 BoxCollider2D:
@@ -407,7 +408,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564811377}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -424,7 +425,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &564811382
 SpriteRenderer:
@@ -641,6 +642,7 @@ MonoBehaviour:
   snakeHead: {fileID: 976874915}
   EyeR: {fileID: 1019107320}
   sprite: {fileID: 1019107324}
+  R_sees_apple: 0
 --- !u!61 &1019107322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -695,7 +697,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019107319}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -712,7 +714,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &1019107324
 SpriteRenderer:

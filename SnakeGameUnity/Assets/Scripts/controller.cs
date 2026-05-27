@@ -93,7 +93,7 @@ public class controller : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         time += Time.deltaTime;
         vector_input = controls.Player.Move.ReadValue<Vector2>();
