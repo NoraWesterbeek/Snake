@@ -13,6 +13,8 @@ public class controller : MonoBehaviour
     public float rl_input;
     public float input_cooldown;
     public bool input_on_cooldown;
+
+
     
     Vector3 lastPos_0;
     Vector3 lastPos_1;

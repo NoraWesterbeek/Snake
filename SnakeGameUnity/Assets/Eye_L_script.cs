@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Eye_L : MonoBehaviour
 {
@@ -14,33 +15,66 @@ public class Eye_L : MonoBehaviour
     Color startColor; 
 
     Vector3 offset;
+
+    public float distance;
+    public List<Transform> objects;
+    int closest_index;
     
     void Start()
     {
         offset = new Vector3(-EyeL.localScale.x/2, EyeL.localScale.y/2, 0);
         startColor = sprite.color;
+        distance = 10000;
     }
 
     void Update()
     {
         EyeL.position = snakeHead.position + snakeHead.rotation * offset;
         EyeL.rotation = snakeHead.rotation;
-        if (L_sees_apple && !L_sees_obstacle)
+
+        if (objects.Count != 0)
         {
-            Debug.Log("L_apple!");
-            sprite.color = Color.green;
-        }
-        
-        else if (L_sees_apple && L_sees_obstacle) 
-        {
-            sprite.color = Color.purple;
-        }
-        else if (L_sees_obstacle)
-        {
-            sprite.color = Color.red;
+            if (distance != 10000)
+            {
+                distance = Vector3.Distance(objects[closest_index].transform.position, snakeHead.position);
+            }
+
+            for (int i = 0; i < objects.Count; i++)
+            {
+                if (distance > Vector3.Distance(objects[i].transform.position, snakeHead.position))
+                {
+                    distance = Vector3.Distance(objects[i].transform.position, snakeHead.position);
+                    closest_index = i;
+                }
+            }
+            Debug.Log(objects[closest_index]);
+            Debug.Log(objects[closest_index].tag);
+            if(objects[closest_index].tag == "Obstacle")
+            {
+                L_sees_obstacle = true;
+                L_sees_apple = false;
+                sprite.color = Color.red;
+            }
+            else if (objects[closest_index].tag == "Apple")
+            {
+                L_sees_apple = true;
+                L_sees_obstacle = false;
+                Debug.Log("L_apple!");
+                sprite.color = Color.green;
+            }
+            else
+            {
+                L_sees_apple = false;
+                L_sees_obstacle = false;
+                sprite.color = startColor;
+            }
         }
         else
         {
+            closest_index = 0;
+            distance = 0;
+            L_sees_apple = false;
+            L_sees_obstacle = false;
             sprite.color = startColor;
         }
         
@@ -48,6 +82,7 @@ public class Eye_L : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        /*
         if (other.CompareTag("Apple"))
         {
             L_sees_apple = true;
@@ -56,9 +91,13 @@ public class Eye_L : MonoBehaviour
         {
             L_sees_obstacle = true;
         }
+        */
+        objects.Add(other.transform);
+
     }
     void OnTriggerExit2D(Collider2D other)
     {
+        /*
         if (other.CompareTag("Apple"))
         {
             L_sees_apple = false;
@@ -67,8 +106,8 @@ public class Eye_L : MonoBehaviour
         {
             L_sees_obstacle = false;
         }
+        */
+        objects.Remove(other.transform);
+        distance = 10000;
     }
-
-
-
 }
