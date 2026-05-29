@@ -50,11 +50,21 @@ public class controller : MonoBehaviour
     public Transform snake_body_7;
     public Transform snake_body_8;
 
+
+    public bool seesAppleLeft;
+    public bool seesAppleRight;
+    public bool seesObstacleLeft;
+    public bool seesObstacleRight;
+
+
+
     List<Transform> snake_body = new List<Transform>();
 
     int cycle;
 
     float rotation = 0;
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
