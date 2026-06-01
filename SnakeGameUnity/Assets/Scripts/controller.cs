@@ -60,7 +60,7 @@ public class controller : MonoBehaviour
 
     List<Transform> snake_body = new List<Transform>();
 
-    int cycle;
+    public int cycle;
 
     float rotation = 0;
 
@@ -205,7 +205,7 @@ public class controller : MonoBehaviour
     
             }
 
-            cycle =+ 1;
+            cycle = cycle + 1;
 /*
             for (var i = 0; i < snake_body.Count; ++i)
             {
