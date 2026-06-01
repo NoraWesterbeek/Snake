@@ -47,13 +47,14 @@ public class Eye_L : MonoBehaviour
                     closest_index = i;
                 }
             }
-            Debug.Log(objects[closest_index]);
-            Debug.Log(objects[closest_index].tag);
+            //Debug.Log(objects[closest_index]);
+            //Debug.Log(objects[closest_index].tag);
             if(objects[closest_index].tag == "Obstacle")
             {
                 L_sees_obstacle = true;
                 L_sees_apple = false;
                 sprite.color = Color.red;
+                Debug.Log("L_obstacle!");
             }
             else if (objects[closest_index].tag == "Apple")
             {
@@ -82,31 +83,10 @@ public class Eye_L : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        /*
-        if (other.CompareTag("Apple"))
-        {
-            L_sees_apple = true;
-        }
-        if (other.CompareTag("Obstacle"))
-        {
-            L_sees_obstacle = true;
-        }
-        */
         objects.Add(other.transform);
-
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        /*
-        if (other.CompareTag("Apple"))
-        {
-            L_sees_apple = false;
-        }
-        if (other.CompareTag("Obstacle"))
-        {
-            L_sees_obstacle = false;
-        }
-        */
         objects.Remove(other.transform);
         distance = 10000;
     }

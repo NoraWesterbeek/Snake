@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.IO.Ports;      
+using System.Threading;     
 
 public class controller : MonoBehaviour
 {
@@ -14,8 +16,11 @@ public class controller : MonoBehaviour
     public float input_cooldown;
     public bool input_on_cooldown;
 
+    private SerialPort serialPort = new SerialPort("COM8", 9600);
+    private Thread readThread;
+    private bool running = true;
+    private string arduinoDecision = "";
 
-    
     Vector3 lastPos_0;
     Vector3 lastPos_1;
     Vector3 lastPos_2;
@@ -60,7 +65,7 @@ public class controller : MonoBehaviour
 
     List<Transform> snake_body = new List<Transform>();
 
-    int cycle;
+    public int cycle;
 
     float rotation = 0;
 
@@ -84,8 +89,43 @@ public class controller : MonoBehaviour
             last_positions.Add(snake_transform.position);
             last_rotations.Add(snake_transform.rotation);
         }
-            
+
+        serialPort.Open();
+        serialPort.ReadTimeout = 100;
+        readThread = new Thread(ReadArduino);
+        readThread.Start();
+        Debug.Log("Arduino connected!");
     }
+
+    void ReadArduino()
+    {
+        while (running)
+        {
+            try
+            {
+                arduinoDecision = serialPort.ReadLine().Trim();
+            }
+            catch (System.Exception) { }
+        }
+    }
+    void SendSignals()
+    {
+        if (!serialPort.IsOpen) return;
+
+        // Bereken of links en rechts vrij zijn
+        Vector3 leftDirection = new Vector3(-direction.y, direction.x, 0);
+        Vector3 rightDirection = new Vector3(direction.y, -direction.x, 0);
+
+        bool leftFree = !Physics.Raycast(snake_transform.position, leftDirection, 1f);
+        bool rightFree = !Physics.Raycast(snake_transform.position, rightDirection, 1f);
+
+        byte[] signals = new byte[2];
+        signals[0] = leftFree ? (byte)1 : (byte)0;
+        signals[1] = rightFree ? (byte)1 : (byte)0;
+
+        serialPort.Write(signals, 0, 2);
+    }
+
     private InputSystem_Actions controls;
 
     private void Awake()
@@ -111,6 +151,23 @@ public class controller : MonoBehaviour
         vector_input = controls.Player.Move.ReadValue<Vector2>();
         rl_input = vector_input.x;
 
+        if (arduinoDecision == "L")
+        {
+            rl_input = -1f;
+            arduinoDecision = "";
+        }
+        else if (arduinoDecision == "R")
+        {
+            rl_input = 1f;
+            arduinoDecision = "";
+        }
+        else if (arduinoDecision == "F")
+        {
+            rl_input = 0f;
+            arduinoDecision = "";
+        }
+
+        SendSignals();
 
         if (input_on_cooldown)
         {
@@ -217,5 +274,11 @@ public class controller : MonoBehaviour
 */
 
         }
+    }
+    void OnApplicationQuit()
+    {
+        running = false;
+        readThread?.Join();
+        if (serialPort.IsOpen) serialPort.Close();
     }
 }
