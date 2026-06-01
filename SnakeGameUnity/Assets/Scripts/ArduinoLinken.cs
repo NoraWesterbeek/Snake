@@ -1,39 +1,43 @@
+using System.IO.Ports;
 using UnityEngine;
 
-public class ArduinoLinken : MonoBehaviour
+public class SnakeBrainLink : MonoBehaviour
 {
+    SerialPort port = new SerialPort("COM3", 9600);
     public controller snake;
 
-    // Simpele serial via Unity's standaard API
-    SimpleSerial serial;
-
-    void Start()
-    {
-        serial = new SimpleSerial("COM3", 9600);
+    void Start() {
+        port.Open();
+        port.ReadTimeout = 20;
     }
 
-    void Update()
-    {
-        SendSignals();
-        ReadDecision();
+    void Update() {
+
+        // 1. Beslissing ontvangen van Arduino
+        try {
+            string cmd = port.ReadLine().Trim();
+
+            if (cmd == "L") snake.TurnLeft();
+            if (cmd == "R") snake.TurnRight();
+            if (cmd == "F") snake.GoForward();
+        }
+        catch {}
+
+        // 2. Sensor info sturen naar Arduino
+        string sensor = GetSensorInfo();
+        port.WriteLine(sensor);
     }
 
-    void SendSignals()
-    {
-        int L = snake.seesAppleLeft || snake.seesObstacleLeft ? 1 : 0;
-        int R = snake.seesAppleRight || snake.seesObstacleRight ? 1 : 0;
+    string GetSensorInfo() {
+        // Voorbeeld: appel richting bepalen
+        Vector3 appleDir = snake.GetAppleDirection();
 
-        serial.WriteLine(L + "," + R);
+        if (appleDir.x < 0) return "APPLE_LEFT";
+        if (appleDir.x > 0) return "APPLE_RIGHT";
+        return "APPLE_FORWARD";
     }
 
-    void ReadDecision()
-    {
-        string msg = serial.ReadLine();
-
-        if (msg == null) return;
-
-        if (msg == "L") snake.rl_input = -1;
-        if (msg == "R") snake.rl_input = 1;
-        if (msg == "F") snake.rl_input = 0;
+    void OnApplicationQuit() {
+        if (port.IsOpen) port.Close();
     }
 }
