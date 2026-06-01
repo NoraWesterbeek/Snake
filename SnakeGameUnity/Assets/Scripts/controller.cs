@@ -262,7 +262,7 @@ public class controller : MonoBehaviour
     
             }
 
-            cycle =+ 1;
+            cycle =cycle+ 1;
 /*
             for (var i = 0; i < snake_body.Count; ++i)
             {
