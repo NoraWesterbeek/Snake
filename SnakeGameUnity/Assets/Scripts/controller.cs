@@ -55,11 +55,21 @@ public class controller : MonoBehaviour
     public Transform snake_body_7;
     public Transform snake_body_8;
 
+
+    public bool seesAppleLeft;
+    public bool seesAppleRight;
+    public bool seesObstacleLeft;
+    public bool seesObstacleRight;
+
+
+
     List<Transform> snake_body = new List<Transform>();
 
-    int cycle;
+    public int cycle;
 
     float rotation = 0;
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -253,21 +263,15 @@ public class controller : MonoBehaviour
             }
 
             cycle =+ 1;
-            /*
-                        for (var i = 0; i < snake_body.Count; ++i)
-                        {
-                            for (var j = 0; ++i)
-                            {
-
-                            }
-                void OnApplicationQuit()
+/*
+            for (var i = 0; i < snake_body.Count; ++i)
+            {
+                for (var j = 0; ++i)
                 {
-                    running = false;
-                    readThread?.Join();
-                    if (serialPort.IsOpen) serialPort.Close();
+                    
                 }
-                        }
-            */
+            }
+*/
 
         }
     }
