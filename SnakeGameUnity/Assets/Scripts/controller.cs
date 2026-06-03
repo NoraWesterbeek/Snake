@@ -16,7 +16,7 @@ public class controller : MonoBehaviour
     public float input_cooldown;
     public bool input_on_cooldown;
 
-    private SerialPort serialPort = new SerialPort("COM8", 9600);
+    private SerialPort serialPort = new SerialPort("COM9", 9600);
     private Thread readThread;
     private bool running = true;
     private string arduinoDecision = "";
@@ -55,12 +55,12 @@ public class controller : MonoBehaviour
     public Transform snake_body_7;
     public Transform snake_body_8;
 
-
+    /*
     public bool seesAppleLeft;
     public bool seesAppleRight;
     public bool seesObstacleLeft;
     public bool seesObstacleRight;
-
+    */
 
 
     List<Transform> snake_body = new List<Transform>();
@@ -68,7 +68,7 @@ public class controller : MonoBehaviour
     public int cycle;
 
     float rotation = 0;
-
+    
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -108,6 +108,7 @@ public class controller : MonoBehaviour
             catch (System.Exception) { }
         }
     }
+    /*
     void SendSignals()
     {
         if (!serialPort.IsOpen) return;
@@ -124,6 +125,28 @@ public class controller : MonoBehaviour
         signals[1] = rightFree ? (byte)1 : (byte)0;
 
         serialPort.Write(signals, 0, 2);
+    }
+    */
+
+    public Eye_L EyeL;
+    public Eye_R EyeR;
+
+    void SendSignals() 
+    {
+        if (!serialPort.IsOpen) return;
+
+        bool appleLeft = EyeL.L_sees_apple;
+        bool appleRight = EyeR.R_sees_apple;
+        bool obstacleLeft = EyeL.L_sees_obstacle;
+        bool obstacleRight = EyeR.R_sees_obstacle;
+
+        byte[] signals = new byte[4];
+        signals[1] = appleLeft ? (byte)1 : (byte)0;
+        signals[2] = appleRight ? (byte)1 : (byte)0;
+        signals[3] = obstacleLeft ? (byte)1 : (byte)0;
+        signals[4] = obstacleRight ? (byte)1 : (byte)0;
+
+        serialPort.Write(signals, 0, 4);
     }
 
     private InputSystem_Actions controls;

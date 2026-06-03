@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
 
@@ -52,3 +52,4 @@ public class ArduinoConnector : MonoBehaviour
         if (serialPort.IsOpen) serialPort.Close();
     }
 }
+*/
