@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using System.IO.Ports;      
-using System.Threading;     
+using System.IO.Ports;
+using System.Threading;
 
 public class controller : MonoBehaviour
 {
@@ -22,25 +22,7 @@ public class controller : MonoBehaviour
     private string arduinoDecision = "";
 
     Vector3 lastPos_0;
-    Vector3 lastPos_1;
-    Vector3 lastPos_2;
-    Vector3 lastPos_3;
-    Vector3 lastPos_4;
-    Vector3 lastPos_5;
-    Vector3 lastPos_6;
-    Vector3 lastPos_7;
-    Vector3 lastPos_8;
     List<Vector3> last_positions = new List<Vector3>();
-
-    Quaternion lastRotation_0;
-    Quaternion lastRotation_1;
-    Quaternion lastRotation_2;
-    Quaternion lastRotation_3;
-    Quaternion lastRotation_4;
-    Quaternion lastRotation_5;
-    Quaternion lastRotation_6;
-    Quaternion lastRotation_7;
-    Quaternion lastRotation_8;
     List<Quaternion> last_rotations = new List<Quaternion>();
 
     bool update;
@@ -55,23 +37,14 @@ public class controller : MonoBehaviour
     public Transform snake_body_7;
     public Transform snake_body_8;
 
-    /*
-    public bool seesAppleLeft;
-    public bool seesAppleRight;
-    public bool seesObstacleLeft;
-    public bool seesObstacleRight;
-    */
-
-
     List<Transform> snake_body = new List<Transform>();
 
     public int cycle;
-
     float rotation = 0;
-    
-    
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Eye_L EyeL;
+    public Eye_R EyeR;
+
     void Start()
     {
         snake_body.Add(snake_body_0);
@@ -90,11 +63,18 @@ public class controller : MonoBehaviour
             last_rotations.Add(snake_transform.rotation);
         }
 
-        serialPort.Open();
-        serialPort.ReadTimeout = 100;
-        readThread = new Thread(ReadArduino);
-        readThread.Start();
-        Debug.Log("Arduino connected!");
+        try
+        {
+            serialPort.Open();
+            serialPort.ReadTimeout = 100;
+            readThread = new Thread(ReadArduino);
+            readThread.Start();
+            Debug.Log("Arduino connected!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("Arduino not connected: " + e.Message);
+        }
     }
 
     void ReadArduino()
@@ -108,30 +88,8 @@ public class controller : MonoBehaviour
             catch (System.Exception) { }
         }
     }
-    /*
+
     void SendSignals()
-    {
-        if (!serialPort.IsOpen) return;
-
-        // Bereken of links en rechts vrij zijn
-        Vector3 leftDirection = new Vector3(-direction.y, direction.x, 0);
-        Vector3 rightDirection = new Vector3(direction.y, -direction.x, 0);
-
-        bool leftFree = !Physics.Raycast(snake_transform.position, leftDirection, 1f);
-        bool rightFree = !Physics.Raycast(snake_transform.position, rightDirection, 1f);
-
-        byte[] signals = new byte[2];
-        signals[0] = leftFree ? (byte)1 : (byte)0;
-        signals[1] = rightFree ? (byte)1 : (byte)0;
-
-        serialPort.Write(signals, 0, 2);
-    }
-    */
-
-    public Eye_L EyeL;
-    public Eye_R EyeR;
-
-    void SendSignals() 
     {
         if (!serialPort.IsOpen) return;
 
@@ -141,10 +99,10 @@ public class controller : MonoBehaviour
         bool obstacleRight = EyeR.R_sees_obstacle;
 
         byte[] signals = new byte[4];
-        signals[1] = appleLeft ? (byte)1 : (byte)0;
-        signals[2] = appleRight ? (byte)1 : (byte)0;
-        signals[3] = obstacleLeft ? (byte)1 : (byte)0;
-        signals[4] = obstacleRight ? (byte)1 : (byte)0;
+        signals[0] = appleLeft ? (byte)1 : (byte)0;  // index 0
+        signals[1] = appleRight ? (byte)1 : (byte)0;  // index 1
+        signals[2] = obstacleLeft ? (byte)1 : (byte)0;  // index 2
+        signals[3] = obstacleRight ? (byte)1 : (byte)0;  // index 3
 
         serialPort.Write(signals, 0, 4);
     }
@@ -166,8 +124,6 @@ public class controller : MonoBehaviour
         controls.Disable();
     }
 
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         time += Time.deltaTime;
@@ -208,13 +164,11 @@ public class controller : MonoBehaviour
             {
                 direction = Vector3.right;
                 rotation = -90f;
-            
             }
             else if (direction == Vector3.right)
             {
                 direction = Vector3.down;
                 rotation = 180f;
-               
             }
             else if (direction == Vector3.down)
             {
@@ -228,6 +182,7 @@ public class controller : MonoBehaviour
             }
             input_on_cooldown = true;
         }
+
         if (rl_input == -1 && !input_on_cooldown)
         {
             if (direction == Vector3.up)
@@ -253,51 +208,39 @@ public class controller : MonoBehaviour
             input_on_cooldown = true;
         }
 
-            if (time > .5)
+        if (time > .5)
         {
             update = true;
         }
-        
 
         if (update)
         {
             lastPos_0 = snake_transform.position;
             snake_transform.rotation = Quaternion.Euler(0, 0, rotation);
-            snake_transform.Translate(new Vector3(0,1,0));
+            snake_transform.Translate(new Vector3(0, 1, 0));
 
             time = 0;
             update = false;
             input_cooldown = 0;
+
             if (rl_input == 0)
             {
                 input_on_cooldown = false;
             }
 
-      
             snake_body[0].position = last_positions[0];
             last_positions[0] = snake_transform.position;
 
             for (var i = 1; i < snake_body.Count; i++)
             {
-
                 snake_body[i].position = last_positions[i];
                 last_positions[i] = snake_body[i - 1].position;
-    
             }
 
-            cycle =cycle+ 1;
-/*
-            for (var i = 0; i < snake_body.Count; ++i)
-            {
-                for (var j = 0; ++i)
-                {
-                    
-                }
-            }
-*/
-
+            cycle = cycle + 1;
         }
     }
+
     void OnApplicationQuit()
     {
         running = false;
