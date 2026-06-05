@@ -808,7 +808,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &613232554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1832,10 +1832,26 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 1961662489}
+    - target: {fileID: -6114848989794644954, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2008528293}
+    - target: {fileID: -6114848989794644954, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: scoreText2
+      value: 
+      objectReference: {fileID: 613232555}
     - target: {fileID: -3358154453048390075, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
       propertyPath: m_BodyType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: EyeL
+      value: 
+      objectReference: {fileID: 564811379}
+    - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: EyeR
+      value: 
+      objectReference: {fileID: 1019107321}
     - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
       propertyPath: cycle
       value: 0
@@ -2127,6 +2143,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961662487}
   m_CullTransparentMesh: 1
+--- !u!114 &2008528293 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+  m_PrefabInstance: {fileID: 1927373038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d394583f4eb0b4c4c93fd33f11589445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &2146889402 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1398147473427254642, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
@@ -2162,11 +2189,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3285576853152916178, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3285576853152916178, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3285576853152916178, guid: 78829d53755a3ab4791f5082bdb53a8d, type: 3}
       propertyPath: m_LocalPosition.z
