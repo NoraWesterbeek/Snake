@@ -54,13 +54,13 @@ public class Eye_L : MonoBehaviour
                 L_sees_obstacle = true;
                 L_sees_apple = false;
                 sprite.color = Color.red;
-                Debug.Log("L_obstacle!");
+                //Debug.Log("L_obstacle!");
             }
             else if (objects[closest_index].tag == "Apple")
             {
                 L_sees_apple = true;
                 L_sees_obstacle = false;
-                Debug.Log("L_apple!");
+                //Debug.Log("L_apple!");
                 sprite.color = Color.green;
             }
             else

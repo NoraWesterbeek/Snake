@@ -16,6 +16,8 @@ public class controller : MonoBehaviour
     public float input_cooldown;
     public bool input_on_cooldown;
 
+    bool update_input_cooldown;
+
     private SerialPort serialPort = new SerialPort("COM9", 9600);
     private Thread readThread;
     private bool running = true;
@@ -124,7 +126,7 @@ public class controller : MonoBehaviour
         controls.Disable();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         time += Time.deltaTime;
         vector_input = controls.Player.Move.ReadValue<Vector2>();
@@ -153,37 +155,50 @@ public class controller : MonoBehaviour
 
         if (input_on_cooldown)
         {
-            input_cooldown += Time.deltaTime;
-            if (input_cooldown > .5)
-            {
-                input_on_cooldown = false;
-                input_cooldown = 0;
-            }
+            rl_input = 0;
+        }
+        
+        if (rl_input != 0)
+        {
+            Debug.Log(rl_input);
         }
 
         if (rl_input == 1 && !input_on_cooldown)
         {
-            if (direction == Vector3.up)
+            if (direction == Vector3.up && !input_on_cooldown)
             {
                 direction = Vector3.right;
                 rotation = -90f;
+                input_on_cooldown = true;
+                rl_input = 0;
+                Debug.Log("To Right");
             }
-            else if (direction == Vector3.right)
+            else if (direction == Vector3.right && !input_on_cooldown)
             {
                 direction = Vector3.down;
                 rotation = 180f;
+                input_on_cooldown = true;
+                rl_input = 0;
+                Debug.Log("To down");
             }
-            else if (direction == Vector3.down)
+            else if (direction == Vector3.down && !input_on_cooldown)
             {
                 direction = Vector3.left;
                 rotation = -270f;
+                input_on_cooldown = true;
+                rl_input = 0;
+                Debug.Log("To left");
             }
-            else
+            else if (!input_on_cooldown)
             {
                 direction = Vector3.up;
                 rotation = 0f;
+                input_on_cooldown = true;
+                rl_input = 0;
+                Debug.Log("To up");
             }
             input_on_cooldown = true;
+            rl_input = 0;
         }
 
         if (rl_input == -1 && !input_on_cooldown)
@@ -216,21 +231,26 @@ public class controller : MonoBehaviour
             update = true;
         }
 
+        if (update_input_cooldown)
+        {
+            input_cooldown += Time.deltaTime;
+                if (input_cooldown > .3f)
+                {
+                    input_on_cooldown = false;
+                    input_cooldown = 0;
+                    update_input_cooldown = false;
+                }
+        }
+
         if (update)
         {
             lastPos_0 = snake_transform.position;
             snake_transform.rotation = Quaternion.Euler(0, 0, rotation);
             snake_transform.Translate(new Vector3(0, 1, 0));
-
+            update_input_cooldown = true;
             time = 0;
             update = false;
             input_cooldown = 0;
-
-            if (rl_input == 0)
-            {
-                input_on_cooldown = false;
-            }
-
             snake_body[0].position = last_positions[0];
             last_positions[0] = snake_transform.position;
 
