@@ -1101,6 +1101,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: EyeL
+      value: 
+      objectReference: {fileID: 564811379}
+    - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
+      propertyPath: EyeR
+      value: 
+      objectReference: {fileID: 1019107321}
+    - target: {fileID: 1211825332541065510, guid: a7adbcd8802f0d84eb7c3080d4678739, type: 3}
       propertyPath: cycle
       value: 0
       objectReference: {fileID: 0}

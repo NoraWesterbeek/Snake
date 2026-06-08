@@ -129,29 +129,32 @@ public class controller : MonoBehaviour
         time += Time.deltaTime;
         vector_input = controls.Player.Move.ReadValue<Vector2>();
         rl_input = vector_input.x;
+        
+        SendSignals();
 
-        if (arduinoDecision == "L")
+        if (arduinoDecision == "L" && !input_on_cooldown)
         {
-            rl_input = -1f;
+            rl_input = -1;
             arduinoDecision = "";
+
         }
-        else if (arduinoDecision == "R")
+        else if (arduinoDecision == "R" && !input_on_cooldown)
         {
-            rl_input = 1f;
+            rl_input = 1;
             arduinoDecision = "";
+
         }
         else if (arduinoDecision == "F")
         {
-            rl_input = 0f;
+            rl_input = 0;
             arduinoDecision = "";
         }
 
-        SendSignals();
 
         if (input_on_cooldown)
         {
             input_cooldown += Time.deltaTime;
-            if (input_cooldown > .1 && rl_input == 0)
+            if (input_cooldown > .5)
             {
                 input_on_cooldown = false;
                 input_cooldown = 0;
@@ -208,7 +211,7 @@ public class controller : MonoBehaviour
             input_on_cooldown = true;
         }
 
-        if (time > .5)
+        if (time > 2)
         {
             update = true;
         }
