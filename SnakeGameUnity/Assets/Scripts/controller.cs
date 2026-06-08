@@ -226,7 +226,7 @@ public class controller : MonoBehaviour
             input_on_cooldown = true;
         }
 
-        if (time > 2)
+        if (time > 2f)
         {
             update = true;
         }
@@ -234,7 +234,7 @@ public class controller : MonoBehaviour
         if (update_input_cooldown)
         {
             input_cooldown += Time.deltaTime;
-                if (input_cooldown > .3f)
+                if (input_cooldown > 1.5f)
                 {
                     input_on_cooldown = false;
                     input_cooldown = 0;
