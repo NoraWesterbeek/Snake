@@ -151,11 +151,6 @@ public class controller : MonoBehaviour
             rl_input = 0;
             arduinoDecision = "";
         }
-        
-        if (rl_input != 0)
-        {
-            Debug.Log(rl_input);
-        }
 
         if (rl_input == 1 && !input_on_cooldown)
         {
@@ -165,7 +160,7 @@ public class controller : MonoBehaviour
                 rotation = -90f;
                 input_on_cooldown = true;
                 rl_input = 0;
-                Debug.Log("To Right");
+                //Debug.Log("To Right");
             }
             else if (direction == Vector3.right && !input_on_cooldown)
             {
@@ -173,7 +168,7 @@ public class controller : MonoBehaviour
                 rotation = 180f;
                 input_on_cooldown = true;
                 rl_input = 0;
-                Debug.Log("To down");
+                //Debug.Log("To down");
             }
             else if (direction == Vector3.down && !input_on_cooldown)
             {
@@ -181,7 +176,7 @@ public class controller : MonoBehaviour
                 rotation = -270f;
                 input_on_cooldown = true;
                 rl_input = 0;
-                Debug.Log("To left");
+                //Debug.Log("To left");
             }
             else if (!input_on_cooldown)
             {
@@ -189,7 +184,7 @@ public class controller : MonoBehaviour
                 rotation = 0f;
                 input_on_cooldown = true;
                 rl_input = 0;
-                Debug.Log("To up");
+                //Debug.Log("To up");
             }
             input_on_cooldown = true;
             rl_input = 0;
