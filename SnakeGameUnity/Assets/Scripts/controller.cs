@@ -151,12 +151,6 @@ public class controller : MonoBehaviour
             rl_input = 0;
             arduinoDecision = "";
         }
-
-
-        if (input_on_cooldown)
-        {
-            rl_input = 0;
-        }
         
         if (rl_input != 0)
         {
@@ -226,7 +220,7 @@ public class controller : MonoBehaviour
             input_on_cooldown = true;
         }
 
-        if (time > 2f)
+        if (time > 1)
         {
             update = true;
         }
@@ -234,7 +228,7 @@ public class controller : MonoBehaviour
         if (update_input_cooldown)
         {
             input_cooldown += Time.deltaTime;
-                if (input_cooldown > 1.5f)
+                if (input_cooldown > .5f)
                 {
                     input_on_cooldown = false;
                     input_cooldown = 0;
@@ -247,7 +241,11 @@ public class controller : MonoBehaviour
             lastPos_0 = snake_transform.position;
             snake_transform.rotation = Quaternion.Euler(0, 0, rotation);
             snake_transform.Translate(new Vector3(0, 1, 0));
-            update_input_cooldown = true;
+            if (input_on_cooldown)
+            {
+                update_input_cooldown = true;
+            }
+
             time = 0;
             update = false;
             input_cooldown = 0;
