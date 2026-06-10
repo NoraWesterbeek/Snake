@@ -134,6 +134,12 @@ public class controller : MonoBehaviour
         
         SendSignals();
 
+        if (input_on_cooldown)
+        {
+            arduinoDecision = "";
+            rl_input = 0;
+        }
+
         if (arduinoDecision == "L" && !input_on_cooldown)
         {
             rl_input = -1;
@@ -145,11 +151,6 @@ public class controller : MonoBehaviour
             rl_input = 1;
             arduinoDecision = "";
 
-        }
-        else if (arduinoDecision == "F")
-        {
-            rl_input = 0;
-            arduinoDecision = "";
         }
 
         if (rl_input == 1 && !input_on_cooldown)
